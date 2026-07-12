@@ -1,54 +1,62 @@
-# React + TypeScript + Vite
+# Trip Planner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript road-trip planner with interactive maps, route costing, POI search, and event suggestions.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Plan **road** or **flight** trips between two locations
+- Geocode addresses via OpenStreetMap Nominatim
+- Driving routes via OSRM with duration estimates
+- Fuel, accommodation, and flight cost estimates
+- Leaflet map with route overlay
+- POI search along the route (e.g. miniature golf)
+- Local event suggestions for the destination
+- Export trip summary to PDF
 
-## Expanding the ESLint configuration
+## Requirements
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js 18+
+- npm
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+No API keys required for the default setup (uses free OSM / OSRM public endpoints).
+
+## Run locally
+
+```bash
+git clone https://github.com/AashishH15/Trip-Planner.git
+cd Trip-Planner
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open the printed URL (default http://localhost:5173).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start Vite dev server |
+| `npm run build` | Typecheck + production build |
+| `npm run lint` | ESLint |
+| `npm run preview` | Preview production build |
+
+## Project structure
+
 ```
+src/
+  components/   # TripForm, MapView, Summary, POIList, EventSuggestions
+  services/     # geocode, routing, fuel, flights, accommodation, POI, events
+```
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---------|-----|
+| Geocoding fails | Check spelling; Nominatim rate-limits heavy use |
+| No route found | Verify start/end are drivable locations; OSRM may fail on invalid coords |
+| Blank map | Ensure `npm install` completed; check browser console for Leaflet errors |
+| Flight/accommodation costs look stubbed | `flightService.ts` and `accommodationService.ts` use placeholder estimates until external APIs are integrated |
+
+## Author
+
+**Aashish Harishchandre** — [Portfolio](https://aashishharishchandre.netlify.app/)
